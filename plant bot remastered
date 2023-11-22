@@ -1,0 +1,55 @@
+import random,discord
+from discord.ext import commands
+import requests
+
+description = '''An example bot to showcase the discord.ext.commands extension
+module.
+
+There are a number of utility commands being showcased here.'''
+
+intents = discord.Intents.default()
+intents.members = True
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', description=description, intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+
+def y():    
+        url = 'https://en.wikipedia.org/wiki/Plant_Protection_and_Quarantine'
+        res = requests.get(url)
+        data = res.json()
+        return data['url']
+
+@bot.command('duck')
+async def wiki(ctx):
+    image_url = y()
+    await ctx.send(image_url)
+
+@bot.command()
+async def mem(ctx):
+    with open('images2.0/mem1.jpg', 'rb') as f:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(f)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file=picture)
+
+@bot.command()
+async def more_mem(ctx):
+    with open('images2.0/mem2.jpg', 'rb') as e:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(e)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file1=picture)
+
+@bot.command()
+async def still_mem(ctx):
+    with open('images2.0/mem3.jpg', 'rb') as d:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(d)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file2=picture)
+
+bot.run('dont look here')
